@@ -3,7 +3,7 @@
 As you know deep learning is a very computational intensive task and as such
 relies on GPUs to train its neural networks.  In a way today's GPUs
 are yesterday's 8087 math coprocessors, only now a computer can have
-more than one GPUs inside it.
+many GPUs inside it, not just one.
 
 This is where the jupyter extension %reserve\_gpu provided here helps.
 Instead of only being able to train one net at a time with jupyter,
