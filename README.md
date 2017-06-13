@@ -8,6 +8,7 @@ multiple GPUs inside it, not just one.
 This is where the extension %reserve\_gpu here helps.
 Normally you can only train one net at a time with jupyter
 unless the GPU device number is hard coded in your notebooks.  
+
 But by using this extension you can train as many nets concurrently as you have GPUs
 The extension automatically finds the first free GPU and reserves it, and only it.
 This leaves the other GPUs free to be used by other notebooks.
