@@ -1,15 +1,17 @@
 ## %reserve\_gpu
 
-As you know deep learning is a very computational intensive task and as such
-relies on GPUs to train its neural networks.  In a way today's GPUs
-are yesterday's 8087 math coprocessors, only now a computer can have
-many GPUs inside it, not just one.
+Deep learning is a very computational intensive task and as such
+relies on GPUs to train its neural networks.  Today's GPUs
+are yesterday's math coprocessors, only now a computer can have
+multiple GPUs inside it, not just one.
 
-This is where the jupyter extension %reserve\_gpu provided here helps.
-Instead of only being able to train one net at a time with jupyter,
-with this extension you can open multiple jupyter notebooks and train as
-many nets concurrently as you have GPUs without having to hard code the GPU
-number.  The extension automatically finds the first free GPU and reserves it.
+This is where the extension %reserve\_gpu here helps.
+Normally you can only train one net at a time with jupyter
+unless the GPU device number is hard coded in your notebooks.  
+But by using this extension you can train as many nets concurrently as you have GPUs
+The extension automatically finds the first free GPU and reserves it, and only it.
+This leaves the other GPUs free to be used by other notebooks.
+In this way each notebook will have its own personal GPU.
 
 For example here is sample jupyter notebook cell:
 
