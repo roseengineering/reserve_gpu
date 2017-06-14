@@ -27,7 +27,8 @@ model.fit(X_train, y_train, validation_data=(X_test, y_test),
 print("Training time: %.2fs" % (perf_counter() - t))
 scores = model.evaluate(X_test, y_test, verbose=0)
 print("Baseline Error: %.2f%%" % (100-scores[1]*100))
-
+```
+```
 Reserving GPU 0: 0000:01:00.0 GeForce 940MX
 CUDA_DEVICE_MEMORY = '2002'
 CUDA_VISIBLE_DEVICES = '0'
@@ -50,4 +51,4 @@ a python library instead you can copy this repo into your python dist-packages
 directory.  If you want to load the extension manually you can use %load\_ext in
 your jupyter notebook instead of modifying ipython\_config.py
 
-
+Copyright 2017 roseengineering
