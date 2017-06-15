@@ -9,17 +9,6 @@ from IPython.core.magic import Magics, magics_class, line_magic
 gpu_devices = None
 
 def available_device():
-    global gpu_devices
-
-    if gpu_devices is None: 
-        r = subprocess.run([
-                "nvidia-smi", 
-                "--format=csv,noheader,nounits",
-                "--query-gpu=index,pci.bus_id,name,memory.total"
-            ], stdout=subprocess.PIPE)
-        lines = r.stdout.decode('utf-8').strip().split('\n')
-        gpu_devices = list(csv.reader(lines))
-
     r = subprocess.run([ 
             "nvidia-smi", 
             "--format=csv,noheader", 
@@ -33,12 +22,12 @@ def available_device():
         dev = gpu_devices[n]
         found = False
         for app in compute_apps:
-            if not app:
-                continue
-            if app[0].strip() == dev[1].strip():
-                found = True
+            if app:
+                bus = app[0].strip()
+                if bus == dev['bus']:
+                    found = True
         if not found:
-            return dev[0]
+            return n
 
 
 @magics_class
@@ -51,6 +40,23 @@ class VisibleDevices(Magics):
 
     @line_magic
     def reserve_gpu(self, index):
+        global gpu_devices
+
+        if gpu_devices is None: 
+            r = subprocess.run([
+                    "nvidia-smi", 
+                    "--format=csv,noheader,nounits",
+                    "--query-gpu=pci.bus_id,name,memory.total,vbios_version,pcie.link.width.current"
+                ], stdout=subprocess.PIPE)
+            lines = r.stdout.decode('utf-8').strip().split('\n')
+            gpu_devices = list(map(lambda d: { 
+                    'bus': d[0].strip(),
+                    'name': d[1].strip(),
+                    'memory': d[2].strip(),
+                    'vbios': d[3].strip(),
+                    'width': d[4].strip()
+                }, csv.reader(lines)))
+
         if not index:
             index = available_device()
             if index is None:
@@ -62,16 +68,16 @@ class VisibleDevices(Magics):
         try:
             n = int(index)
             dev = gpu_devices[n]
-            bus = dev[1].strip()
-            name = dev[2].strip()
-            memory = dev[3].strip()
-            print("Reserving GPU %s: %s %s" % (n, bus, name))
-            print("CUDA_DEVICE_MEMORY = '%s'" % memory)
-            self.shell.ex("os.environ['CUDA_DEVICE_MEMORY'] = '%s'" % memory)
+            print("Reserving GPU%s: %s %sx %s (VBIOS %s)" % (n, 
+                  dev['bus'], dev['width'], dev['name'], dev['vbios']))
+            print("CUDA_DEVICE_MEMORY = '%s'" % dev['memory'])
+            self.shell.ex("os.environ['CUDA_DEVICE_MEMORY'] = '%s'" % dev['memory'])
         except:
             pass
 
+        print("CUDA_DEVICE_ORDER = 'PCI_BUS_ID'")
         print("CUDA_VISIBLE_DEVICES = '%s'" % index)
+        self.shell.ex("os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'")
         self.shell.ex("os.environ['CUDA_VISIBLE_DEVICES'] = '%s'" % index)
         
 
