@@ -29,7 +29,7 @@ scores = model.evaluate(X_test, y_test, verbose=0)
 print("Baseline Error: %.2f%%" % (100-scores[1]*100))
 ```
 ```
-Reserving GPU 0: 0000:01:00.0 GeForce 940MX
+Reserving GPU0: 0000:01:00.0 4x GeForce 940MX (VBIOS 11.22.33)
 CUDA_DEVICE_MEMORY = '2002'
 CUDA_VISIBLE_DEVICES = '0'
 Training time: 191.74s
