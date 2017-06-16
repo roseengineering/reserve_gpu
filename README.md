@@ -39,7 +39,7 @@ Baseline Error: 1.02%
 
 The extension does the reservation by setting the environment variable
 CUDA\_VISIBLE\_DEVICES to the device number of the GPU it found.  As a convenience,
-the amount of ram in MB on the free GPU is set in the environment variable CUDA\_DEVICE\_MEMORY.
+the amount of ram in MB on the reserved GPU is set in the environment variable CUDA\_DEVICE\_MEMORY.
 If no GPUs are free the extension displays a message saying there are no free GPU devices.
 The extension also takes the GPU device number as an argument if you want to reserve
 a specific or multiple GPUs.  It also displays information about the GPU if it can find it.
