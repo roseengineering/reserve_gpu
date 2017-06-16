@@ -5,7 +5,7 @@ relies on GPUs to train its neural networks.  Today's GPUs
 are yesterday's math coprocessors, only now a computer can have
 multiple GPUs inside it, not just one.
 
-This is where this extension comes in.
+This is where %reserve\_gpu comes in.
 Normally you can only train one net at a time with jupyter
 unless the GPU device number is hard coded in your notebooks.  
 
