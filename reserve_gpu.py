@@ -18,6 +18,8 @@ def available_device():
     lines = r.stdout.decode('utf-8').strip().split('\n')
     compute_apps = list(csv.reader(lines))
 
+    index = None
+    memory = 0
     for n in range(len(gpu_devices)):
         dev = gpu_devices[n]
         found = False
@@ -27,7 +29,11 @@ def available_device():
                 if bus == dev['bus']:
                     found = True
         if not found:
-            return n
+            mb = int(dev['memory']) + int(dev['width']) * 10
+            if mb > memory:
+                index = n
+                memory = mb
+    return index
 
 
 @magics_class
